@@ -69,3 +69,17 @@ def optimize(w,b,X,y,alpha,n_iters):
     grands = {'dw': dw, 'db': db}
     params = {'w':w, 'b':b}
     return grands, params
+
+# 预测部分
+def predict(w,b,X_test):
+    A = sigmoid(np.dot(w.T, X_test) + b)
+
+    m = X_test.shape[1]
+    y_pred = np.zeros([1,m])
+
+    for i in range(m):
+        if A[:,i] > 0.5:
+            y_pred[:,i] = 1
+        else:
+            y_pred[:,i] = 0
+    return y_pred
