@@ -22,4 +22,30 @@ test_labels_trans = test_labels_org[np.newaxis,:]
 #标准化数据 归一化处理
 # print(train_data_trans[:9,:9])
 train_data_std = train_data_trans / 255 # data - min /(max - min) ; min:0;max:255
-print(train_data_std[:9,:9])
+test_data_std = test_data_trans / 255
+
+#定义sigmoid函数
+def sigmoid(z):
+    a = 1 / (1 + np.exp(-z))
+    return a
+
+#初始化参数
+n_dim = train_data_std.shape[0]
+w = np.zeros([n_dim,1])
+b = 0
+
+#定义前向传播函数，代价函数以及梯度下降
+def propagate(w, b, X, y):
+    #1.前向传播函数
+    A = sigmoid(np.dot(w.T, X) + b)
+
+    #2.代价函数
+    m = X.shape[1]
+    J = -1 / m * np.sum(y * np.log(A) + (1 - y) * np.log(1 - A))
+
+    #3.梯度下降
+    dw = 1 / m * np.dot(X, (A - y).T)
+    db = 1 / m * np.sum(A - y)
+
+    grands = {'dw':dw, 'db':db}
+    return grands, J
