@@ -49,3 +49,23 @@ def propagate(w, b, X, y):
 
     grands = {'dw':dw, 'db':db}
     return grands, J
+
+
+#优化部分
+#n_iters 迭代次数
+def optimize(w,b,X,y,alpha,n_iters):
+    costs = []
+    for i in range(n_iters - 1):
+     grands,J = propagate(w,b,X,y)
+     dw = grands['dw']
+     db = grands['db']
+
+     w = w - alpha * dw
+     b = b - alpha * db
+
+     if i % 100 == 0:
+         costs.append(J)
+         print("n_iters is ",i,' cost is ',J)
+    grands = {'dw': dw, 'db': db}
+    params = {'w':w, 'b':b}
+    return grands, params
